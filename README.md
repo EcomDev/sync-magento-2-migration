@@ -29,8 +29,9 @@ and skips.
 
 Also, you can add own mappers for exported files. Here is an example on mapping output of product attributes to create website level price instead of global during migration:
 
-```
-{"product":
+```json
+{
+  "product": {
     "mappers": {
       "product_attributes": [
         {
@@ -43,6 +44,7 @@ Also, you can add own mappers for exported files. Here is an example on mapping 
         }
       ]
     }
+  }
 }
 ```  
 
