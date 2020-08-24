@@ -69,9 +69,9 @@ class MagentoExport
 
     public function exportCustomers()
     {
-        //$this->customerExport->exportCustomers('customer.csv');
-        //$this->customerExport->exportCustomerAddresses('customer_address.csv');
-        //$this->customerExport->exportCustomerBalance('customer_balance.csv');
-
+        $this->customerExport->exportCustomers('customer.csv');
+        $this->customerExport->exportCustomerAddresses('customer_address.csv');
+        // TODO: add a check for customer balance existence and enable it back
+        // $this->customerExport->exportCustomerBalance('customer_balance.csv');
     }
 }

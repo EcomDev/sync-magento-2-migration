@@ -59,6 +59,7 @@ class ExportApplication
             $export->exportAttributes();
             $export->exportCategories();
             $export->exportProducts();
+            $export->exportCustomers();
         } catch (InvalidArgumentException $e) {
             $cli->error($e->getMessage());
             $cli->usage();

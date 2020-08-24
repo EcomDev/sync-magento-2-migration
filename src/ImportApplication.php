@@ -59,6 +59,7 @@ class ImportApplication
             $import->importAttributes();
             $import->importCategories();
             $import->importProducts();
+            $import->importCustomers();
         } catch (InvalidArgumentException $e) {
             $cli->error($e->getMessage());
             $cli->usage();
