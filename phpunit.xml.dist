@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/7/phpunit.xsd"
+         colors="true"
+         verbose="true">
+    <php>
+        <env name="DB_USER" value="root" />
+        <env name="DB_HOST" value="localhost" />
+        <env name="DB_NAME_M2" value="magento2_clean" />
+        <env name="DB_NAME" value="magento1" />
+        <env name="DB_PASSWORD" value="tests" />
+    </php>
+</phpunit>

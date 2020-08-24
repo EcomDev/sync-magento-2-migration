@@ -1,0 +1,49 @@
+{
+  "attribute.csv": {
+    "map": {
+
+    }
+  },
+  "attribute_set.csv": {
+    "map": {
+
+    }
+  },
+  "attribute_option.csv": {
+    "map": {
+      "attribute": {
+        "manufacturer": "brand"
+      }
+    },
+    "skip": [
+      {
+        "attribute": []
+      }
+    ]
+  },
+  "category": {
+    "active_filter": [
+      "en"
+    ],
+    "stores": {
+      "default":"default","en":"en","cz":"cz","ru":"ru","de":"de","ro":"ro","hu":"hu","lt":"lt","ua":"ua","bg":"bg","gr":"gr","sk2":"sk2","se":"se","es":"es","it":"it","fr":"fr"
+    }
+  },
+  "product_data.csv": {
+    "map": {
+      "attribute": {
+      }
+    },
+    "skip": [
+      {
+        "store": ["pl", "sk"]
+      }
+    ]
+  },
+  "product": {
+    "ignored_attributes": [
+      "tier_price",
+      "url_path"
+    ]
+  }
+}

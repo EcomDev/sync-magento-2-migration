@@ -1,0 +1,4 @@
+sku,attribute,store,value
+sku1,attribute2,,value1.1
+sku1,attribute2,en_us,value1.2
+sku2,attribute2,en_uk,value1.3

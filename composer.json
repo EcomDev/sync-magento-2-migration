@@ -1,0 +1,33 @@
+{
+    "name": "ecomdev/sync-magento-2-migration",
+    "description": "Migration Application for M1 -> M2",
+    "type": "project",
+    "require": {
+        "zendframework/zend-db": "*",
+        "nanawel/zend-db-sql-insertmultiple": "dev-master",
+        "league/climate": "^3.5",
+        "league/csv": "^9.2"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^7.5"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Ivan Chepurnyi",
+            "email": "ivan.chepurnyi@ecomdev.org"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "EcomDev\\MagentoMigration\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "EcomDev\\MagentoMigration\\": "tests/"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
