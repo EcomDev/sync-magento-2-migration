@@ -11,7 +11,7 @@ namespace EcomDev\MagentoMigration;
 
 class CsvReader
 {
-    public function readFile(string $fileName): iterable
+    public function readFile(string $fileName, bool $decodeData = false): iterable
     {
         if (!file_exists($fileName)) {
             return;
@@ -25,7 +25,9 @@ class CsvReader
             if (count($row) < count($headers)) {
                 continue;
             }
-
+            if($decodeData) {
+                $row = array_map('base64_decode', $row);
+            }
             $item =  array_combine($headers, $row);
             yield $item;
         }

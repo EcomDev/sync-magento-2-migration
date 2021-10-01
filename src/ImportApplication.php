@@ -54,12 +54,18 @@ class ImportApplication
                 );
             }
 
-            $import = $this->importFactory->create($path, $adapter);
+            $import = $this->importFactory->create($path, $adapter, (bool) $cli->arguments->get('decode_data'));
 
-            $import->importAttributes();
-            $import->importCategories();
-            $import->importProducts();
-            $import->importCustomers();
+            if($cli->arguments->get('attributes_only')) {
+                $import->importAttributesOnly();
+            } elseif($cli->arguments->get('products_data_only')) {
+                $import->importProductsDataOnly();
+            } else {
+                $import->importAttributes();
+                $import->importCategories();
+                $import->importProducts();
+                $import->importCustomers();
+            }
         } catch (InvalidArgumentException $e) {
             $cli->error($e->getMessage());
             $cli->usage();
@@ -98,6 +104,25 @@ class ImportApplication
         $cli->arguments->add('target_path', [
             'description' => 'Import Data Directory',
             'required' => true
+        ]);
+
+        $cli->arguments->add('attributes_only', [
+            'prefix' => 'a',
+            'longPrefix' => 'attributes-only',
+            'description' => 'Only export Attribute data',
+            'defaultValue' => 0
+        ]);
+
+        $cli->arguments->add('products_data_only', [
+            'prefix' => 'po',
+            'longPrefix' => 'products-data-only',
+            'defaultValue' => 0
+        ]);
+
+        $cli->arguments->add('decode_data', [
+            'prefix' => 'dd',
+            'longPrefix' => 'decode-data',
+            'defaultValue' => 0
         ]);
     }
 }

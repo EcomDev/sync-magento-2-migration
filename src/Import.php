@@ -47,6 +47,15 @@ class Import
         $this->customerImport = $customerImport;
     }
 
+    public function importAttributesOnly()
+    {
+        $this->eavMetadataImport->importAttributes($this->csvFactory->createReader('attribute.csv'));
+
+        $this->eavMetadataImport->importAttributeSets($this->csvFactory->createReader('attribute_set.csv'));
+
+        $this->eavMetadataImport->importAttributeOptions($this->csvFactory->createReader('attribute_option.csv'));
+    }
+
     public function importAttributes()
     {
         $this->eavMetadataImport->importAttributes($this->csvFactory->createReader('attribute.csv'));
@@ -60,6 +69,12 @@ class Import
     {
         $this->categoryImport->importCategories($this->csvFactory->createReader('category.csv'));
         $this->categoryImport->importCategoryAttributes($this->csvFactory->createReader('category_data.csv'));
+    }
+
+    public function importProductsDataOnly()
+    {
+        $this->productImport->importProducts($this->csvFactory->createReader('product.csv'));
+        $this->productImport->importProductData($this->csvFactory->createReader('product_data.csv'));
     }
 
     public function importProducts()

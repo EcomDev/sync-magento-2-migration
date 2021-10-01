@@ -13,10 +13,10 @@ use Zend\Db\Adapter\Adapter;
 
 class ImportFactory
 {
-    public function create(string $directory, Adapter $adapter)
+    public function create(string $directory, Adapter $adapter, bool $decodeData = false)
     {
         return new Import(
-            new CsvFactory($directory),
+            new CsvFactory($directory, $decodeData),
             EavMetadataImport::createFromAdapter($adapter),
             CategoryImport::createFromAdapter($adapter),
             ProductImport::createFromAdapter($adapter),

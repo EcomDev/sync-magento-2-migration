@@ -9,6 +9,8 @@ declare(strict_types=1);
 namespace EcomDev\MagentoMigration;
 
 
+use phpDocumentor\Reflection\Types\Boolean;
+
 class CsvWriter
 {
     /**
@@ -30,12 +32,18 @@ class CsvWriter
      */
     private $mapping;
 
-    public function __construct(\SplFileObject $writer, array $headers, array $skipConditions, array $mapping)
+    /**
+     * @var Boolean
+     */
+    private $encodeData;
+
+    public function __construct(\SplFileObject $writer, array $headers, array $skipConditions, array $mapping, bool $encodeData = false)
     {
         $this->writer = $writer;
         $this->headers = $headers;
         $this->skipConditions = $skipConditions;
         $this->mapping = $mapping;
+        $this->encodeData = $encodeData;
     }
 
     public function write(array $row): void
@@ -73,7 +81,9 @@ class CsvWriter
 
             $csvRow[] = (string)$value;
         }
-
+        if ($this->encodeData) {
+            $csvRow = array_map('base64_encode', $csvRow);
+        }
         $this->writer->fputcsv($csvRow);
     }
 }
