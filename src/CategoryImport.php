@@ -77,7 +77,7 @@ class CategoryImport
 
         $entityInsert = InsertOnDuplicate::create(
             'catalog_category_entity',
-            ['entity_id', 'attribute_set_id', 'parent_id', 'path', 'level', 'position']
+            ['entity_id', 'attribute_set_id', 'parent_id', 'path', 'level', 'position', 'children_count']
         )->onDuplicate(['level', 'path', 'position', 'parent_id'])
         ;
 
@@ -104,7 +104,8 @@ class CategoryImport
                 $path[count($path) - 2],
                 implode('/', $path),
                 count($path) - 1,
-                $row['position']
+                $row['position'],
+                0
             );
 
             $nameInsert->withRow(
@@ -191,7 +192,9 @@ class CategoryImport
 
     private function allocateEntityIds(int $number): array
     {
-        $insert = $this->sql->insert('catalog_category_entity')->values(['parent_id' => '2']);
+        $insert = $this->sql->insert('catalog_category_entity')->values(
+            ['parent_id' => '2', 'path' => '', 'position' => 0, 'children_count' => 0]
+        );
         $this->sql->getAdapter()->getDriver()->getConnection()->beginTransaction();
 
         $ids = [];
