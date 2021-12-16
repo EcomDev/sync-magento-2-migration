@@ -54,12 +54,18 @@ class ExportApplication
                 $this->exportFactory = $this->exportFactory->withConfiguration((array)$configuration);
             }
 
-            $export = $this->exportFactory->create($path, $adapter);
+            $export = $this->exportFactory->create($path, $adapter, (bool) $cli->arguments->get('encode_data'));
 
-            $export->exportAttributes();
-            $export->exportCategories();
-            $export->exportProducts();
-            $export->exportCustomers();
+            if($cli->arguments->get('attributes_only')) {
+                $export->exportAttributes();
+            } else if($cli->arguments->get('products_data_only')) {
+                $export->exportProductsDataOnly();
+            } else {
+                $export->exportAttributes();
+                $export->exportCategories();
+                $export->exportProducts();
+                $export->exportCustomers();
+            }
         } catch (InvalidArgumentException $e) {
             $cli->error($e->getMessage());
             $cli->usage();
@@ -105,6 +111,27 @@ class ExportApplication
         $cli->arguments->add('target_path', [
             'description' => 'MagentoExport Directory',
             'required' => true
+        ]);
+
+        $cli->arguments->add('attributes_only', [
+            'prefix' => 'a',
+            'longPrefix' => 'attributes-only',
+            'description' => 'Only export Attribute data',
+            'defaultValue' => 0
+        ]);
+
+        $cli->arguments->add('products_data_only', [
+            'prefix' => 'po',
+            'longPrefix' => 'products-data-only',
+            'description' => 'Only export product data',
+            'defaultValue' => 0
+        ]);
+
+        $cli->arguments->add('encode_data', [
+            'prefix' => 'ed',
+            'longPrefix' => 'encode_data',
+            'description' => 'Bae 64 encode data to csv file',
+            'defaultValue' => 0
         ]);
     }
 }

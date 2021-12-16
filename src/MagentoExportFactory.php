@@ -14,13 +14,13 @@ class MagentoExportFactory
 {
     private $configuration = [];
 
-    public function create(string $targetDirectory, Adapter $adapter): MagentoExport
+    public function create(string $targetDirectory, Adapter $adapter, bool $encodeData = false): MagentoExport
     {
         if (!is_dir($targetDirectory)) {
             mkdir($targetDirectory, 0755, true);
         }
 
-        $csvFactory = new CsvFactory($targetDirectory);
+        $csvFactory = new CsvFactory($targetDirectory, $encodeData);
 
         $eavInfo = MagentoEavInfo::createFromAdapter($adapter);
 
