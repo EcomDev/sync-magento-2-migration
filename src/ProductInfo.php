@@ -483,7 +483,7 @@ class ProductInfo implements Feed
         }
 
         $isMultiple['catalog_product_entity_varchar'] = new Expression('(attribute.value REGEXP ?)', '^[0-9]+,');
-
+        $isMultiple['catalog_product_entity_text'] = new Expression('(attribute.value REGEXP ?)', '^[0-9]+,');
 
         $attributeCodeToId = array_flip($attributeIds);
         foreach ($conditionGenerator->conditions() as $condition) {
