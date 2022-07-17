@@ -19,9 +19,9 @@ class CsvReader
 
         $reader = new \SplFileObject($fileName, 'r');
 
-        $headers = $reader->fgetcsv(',', '"', "\0");
+        $headers = $reader->fgetcsv(',', '\'', "\0");
 
-        while ($row = $reader->fgetcsv(',', '"', "\0")) {
+        while ($row = $reader->fgetcsv(',', '\'', "\0")) {
             if (count($row) < count($headers)) {
                 continue;
             }
