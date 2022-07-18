@@ -53,7 +53,7 @@ class CsvFactory
     public function createWriter(string $fileName, array $headers): CsvWriter
     {
         $csvFile = new \SplFileObject($this->currentDirectory . DIRECTORY_SEPARATOR . $fileName, 'w');
-        $csvFile->setCsvControl(',', "'", "\0");
+        $csvFile->setCsvControl(',', '"', "\0");
         $csvFile->fputcsv($headers);
 
         return new CsvWriter(
