@@ -8,7 +8,6 @@ declare(strict_types=1);
 
 namespace EcomDev\MagentoMigration;
 
-
 use EcomDev\MagentoMigration\Sql\InsertOnDuplicate;
 use EcomDev\MagentoMigration\Sql\TableResolverFactory;
 use Zend\Db\Adapter\Adapter;
@@ -35,11 +34,27 @@ class ProductImport
      */
     private $resolverFactory;
 
-    public function __construct(MagentoEavInfo $info, Sql $sql, TableResolverFactory $resolverFactory)
-    {
+    /**
+     * @var ProductInfo
+     */
+    private $productInfo;
+
+    /**
+     * @param MagentoEavInfo $info
+     * @param Sql $sql
+     * @param TableResolverFactory $resolverFactory
+     * @param ProductInfo $productInfo
+     */
+    public function __construct(
+        MagentoEavInfo $info,
+        Sql $sql,
+        TableResolverFactory $resolverFactory,
+        ProductInfo $productInfo
+    ) {
         $this->info = $info;
         $this->sql = $sql;
         $this->resolverFactory = $resolverFactory;
+        $this->productInfo = $productInfo;
     }
 
 
@@ -48,7 +63,8 @@ class ProductImport
         return new self(
             MagentoEavInfo::createFromAdapter($adapter),
             new Sql($adapter),
-            TableResolverFactory::createFromAdapter($adapter)
+            TableResolverFactory::createFromAdapter($adapter),
+            ProductInfoFactory::createFromAdapter($adapter)->create()
         );
     }
 
@@ -575,6 +591,40 @@ class ProductImport
 
             $linkInsert->executeIfNotEmpty($this->sql);
             $relationInsert->executeIfNotEmpty($this->sql);
+        });
+    }
+
+    /**
+     * @param iterable $groupedRelations
+     * @throws \Throwable
+     */
+    public function importGroupedProductRelation(iterable $groupedRelations)
+    {
+        $linkTypeId = $this->productInfo->getSuperLinkTypeId();
+
+        $this->transactional(function () use ($groupedRelations, $linkTypeId) {
+            $productResolver = $this->resolverFactory->createSingleValueResolver(
+                'catalog_product_entity',
+                'sku',
+                'entity_id'
+            );
+
+            $linkInsert = InsertOnDuplicate::create(
+                'catalog_product_link',
+                ['product_id', 'linked_product_id', 'link_type_id']
+            )
+                ->withResolver($productResolver)
+                ->onDuplicate(['product_id']);
+
+            foreach ($groupedRelations as $row) {
+                $linkInsert = $linkInsert->withRow(
+                    $productResolver->unresolved($row['product_sku']),
+                    $productResolver->unresolved($row['linked_product_sku']),
+                    $linkTypeId
+                )->flushIfLimitReached($this->sql);
+            }
+
+            $linkInsert->executeIfNotEmpty($this->sql);
         });
     }
 

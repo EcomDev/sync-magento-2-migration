@@ -549,7 +549,7 @@ class ProductInfo implements Feed
         return $data;
     }
 
-    public function fetchGroupedProductRelations(SelectConditionGenerator $conditionGenerator): iterable
+    public function getSuperLinkTypeId(): int
     {
         $select = $this->sql->select()
             ->columns(['id' => 'link_type_id'])
@@ -561,7 +561,12 @@ class ProductInfo implements Feed
             )
         ;
 
-        $linkTypeId = $this->sql->prepareStatementForSqlObject($select)->execute()->current()['id'];
+        return (int)$this->sql->prepareStatementForSqlObject($select)->execute()->current()['id'];
+    }
+
+    public function fetchGroupedProductRelations(SelectConditionGenerator $conditionGenerator): iterable
+    {
+        $linkTypeId = $this->getSuperLinkTypeId();
 
         foreach ($conditionGenerator->conditions() as $condition) {
             $select = $this->sql->select(['product' => 'catalog_product_entity'])
