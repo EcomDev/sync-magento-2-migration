@@ -548,4 +548,46 @@ class ProductInfo implements Feed
 
         return $data;
     }
+
+    public function fetchGroupedProductRelations(SelectConditionGenerator $conditionGenerator): iterable
+    {
+        $select = $this->sql->select()
+            ->columns(['id' => 'link_type_id'])
+            ->from('catalog_product_link_type')
+            ->where(
+                function (Where $where) {
+                    $where->equalTo('code', 'super');
+                }
+            )
+        ;
+
+        $linkTypeId = $this->sql->prepareStatementForSqlObject($select)->execute()->current()['id'];
+
+        foreach ($conditionGenerator->conditions() as $condition) {
+            $select = $this->sql->select(['product' => 'catalog_product_entity'])
+                ->columns(['product_sku' => 'sku'])
+                ->join(
+                    ['link' => 'catalog_product_link'],
+                    'link.product_id = product.entity_id',
+                    []
+                )
+                ->join(
+                    ['linked_product' => 'catalog_product_entity'],
+                    'link.linked_product_id = linked_product.entity_id',
+                    ['linked_product_sku' => 'sku']
+                )
+                ->where(
+                    function (Where $where) use ($condition, $linkTypeId) {
+                        $condition->apply('product.entity_id', $where);
+                        $where->equalTo('product.type_id', 'grouped');
+                        $where->equalTo('link.link_type_id', (int)$linkTypeId);
+                    }
+                )
+            ;
+
+            foreach ($this->sql->prepareStatementForSqlObject($select)->execute() as $row) {
+                yield $row;
+            }
+        }
+    }
 }
