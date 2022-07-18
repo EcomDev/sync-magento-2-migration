@@ -8,11 +8,7 @@ declare(strict_types=1);
 
 namespace EcomDev\MagentoMigration;
 
-use League\Csv\Reader;
-use League\Csv\RFC4180Field;
 use League\Csv\Writer;
-use phpDocumentor\Reflection\Types\Boolean;
-use Symfony\Component\Finder\SplFileInfo;
 
 class CsvFactory
 {
@@ -31,25 +27,37 @@ class CsvFactory
     private $csvReader;
 
     /**
-     * @var Boolean
+     * @var bool
      */
     private $encodedData;
 
-    public function __construct(string $currentDirectory, bool $encodedData = false)
-    {
+    /**
+     * @param string $currentDirectory
+     * @param bool $encodedData
+     */
+    public function __construct(
+        string $currentDirectory,
+        bool $encodedData = false
+    ) {
         $this->currentDirectory = $currentDirectory;
-        $this->csvReader = new CsvReader();
         $this->encodedData = $encodedData;
-
+        $this->csvReader = new CsvReader();
     }
 
+    /**
+     * @param string $fileName
+     * @return Writer
+     */
     public function createNativeWriter(string $fileName): Writer
     {
-        $writer = Writer::createFromPath($this->currentDirectory . DIRECTORY_SEPARATOR . $fileName, 'w');
-
-        return $writer;
+        return Writer::createFromPath($this->currentDirectory . DIRECTORY_SEPARATOR . $fileName, 'w');
     }
 
+    /**
+     * @param string $fileName
+     * @param array $headers
+     * @return CsvWriter
+     */
     public function createWriter(string $fileName, array $headers): CsvWriter
     {
         $csvFile = new \SplFileObject($this->currentDirectory . DIRECTORY_SEPARATOR . $fileName, 'w');
@@ -65,11 +73,20 @@ class CsvFactory
         );
     }
 
+    /**
+     * @param string $fileName
+     * @return iterable
+     */
     public function createReader(string $fileName): iterable
     {
         return $this->csvReader->readFile($this->currentDirectory . DIRECTORY_SEPARATOR . $fileName, $this->encodedData);
     }
 
+    /**
+     * @param string $fileName
+     * @param array $condition
+     * @return $this
+     */
     public function withSkip(string $fileName, array $condition): self
     {
         $factory = clone $this;
@@ -77,10 +94,15 @@ class CsvFactory
         return $factory;
     }
 
+    /**
+     * @param string $fileName
+     * @param string $field
+     * @param array $values
+     * @return $this
+     */
     public function withMap(string $fileName, string $field, array $values): self
     {
         $factory = clone $this;
-
         $factory->mappings[$fileName][$field] = $values;
         return $factory;
     }
