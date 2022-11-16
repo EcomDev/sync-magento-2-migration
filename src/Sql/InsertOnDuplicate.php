@@ -10,13 +10,13 @@ namespace EcomDev\MagentoMigration\Sql;
 
 
 use Braintree\Exception;
-use Zend\Db\Adapter\AdapterInterface;
-use Zend\Db\Adapter\Driver\DriverInterface;
-use Zend\Db\Adapter\Driver\StatementInterface;
-use Zend\Db\Adapter\ParameterContainer;
-use Zend\Db\Adapter\Platform\PlatformInterface;
-use Zend\Db\Sql\InsertMultiple;
-use Zend\Db\Sql\Sql;
+use Laminas\Db\Adapter\AdapterInterface;
+use Laminas\Db\Adapter\Driver\DriverInterface;
+use Laminas\Db\Adapter\Driver\StatementInterface;
+use Laminas\Db\Adapter\ParameterContainer;
+use Laminas\Db\Adapter\Platform\PlatformInterface;
+use Laminas\Db\Sql\InsertMultiple;
+use Laminas\Db\Sql\Sql;
 
 class InsertOnDuplicate extends InsertMultiple
 {
@@ -179,7 +179,7 @@ class InsertOnDuplicate extends InsertMultiple
             return;
         }
         if (!$this->columns) {
-            throw new \Zend\Db\Exception\InvalidArgumentException('values or select should be present');
+            throw new \Laminas\Db\Exception\InvalidArgumentException('values or select should be present');
         }
 
         $columns = array();
@@ -192,7 +192,7 @@ class InsertOnDuplicate extends InsertMultiple
         $prepareColumns = true;
         foreach ($this->valueRows as $rowIndex => $row) {
             if (!is_array($row)) {
-                throw new \Zend\Db\Exception\InvalidArgumentException('values must be arrays for multi-insertion');
+                throw new \Laminas\Db\Exception\InvalidArgumentException('values must be arrays for multi-insertion');
             }
             $subValues = array();
             ksort($row); // Make sure columns always appear in the same order

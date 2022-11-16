@@ -10,11 +10,11 @@ namespace EcomDev\MagentoMigration;
 
 use EcomDev\MagentoMigration\Sql\InsertOnDuplicate;
 use Generator;
-use Zend\Db\Adapter\Adapter;
-use Zend\Db\Adapter\Driver\ConnectionInterface;
-use Zend\Db\Sql\Insert;
-use Zend\Db\Sql\Sql;
-use Zend\Db\Sql\Where;
+use Laminas\Db\Adapter\Adapter;
+use Laminas\Db\Adapter\Driver\ConnectionInterface;
+use Laminas\Db\Sql\Insert;
+use Laminas\Db\Sql\Sql;
+use Laminas\Db\Sql\Where;
 
 class EavMetadataImport
 {

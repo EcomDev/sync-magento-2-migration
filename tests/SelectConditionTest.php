@@ -10,7 +10,7 @@ namespace EcomDev\MagentoMigration;
 
 
 use PHPUnit\Framework\TestCase;
-use Zend\Db\Sql\Where;
+use Laminas\Db\Sql\Where;
 
 class SelectConditionTest extends TestCase
 {

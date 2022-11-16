@@ -9,10 +9,10 @@ declare(strict_types=1);
 namespace EcomDev\MagentoMigration;
 
 
-use Zend\Db\Adapter\Adapter;
-use Zend\Db\Metadata\MetadataInterface;
-use Zend\Db\Metadata\Source\Factory;
-use Zend\Db\Sql\Sql;
+use Laminas\Db\Adapter\Adapter;
+use Laminas\Db\Metadata\MetadataInterface;
+use Laminas\Db\Metadata\Source\Factory;
+use Laminas\Db\Sql\Sql;
 
 class CategoryInfoFactory
 {

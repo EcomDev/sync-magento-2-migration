@@ -8,19 +8,19 @@ declare(strict_types=1);
 
 namespace EcomDev\MagentoMigration;
 
-use Zend\Db\Metadata\MetadataInterface;
-use Zend\Db\Sql\Combine;
-use Zend\Db\Sql\Ddl\Column\Integer;
-use Zend\Db\Sql\Ddl\Column\Varchar;
-use Zend\Db\Sql\Ddl\Constraint\PrimaryKey;
-use Zend\Db\Sql\Ddl\CreateTable;
-use Zend\Db\Sql\Ddl\DropTable;
-use Zend\Db\Sql\Ddl\Index\Index;
-use Zend\Db\Sql\Expression;
-use Zend\Db\Sql\Predicate\Predicate;
-use Zend\Db\Sql\Select;
-use Zend\Db\Sql\Sql;
-use Zend\Db\Sql\Where;
+use Laminas\Db\Metadata\MetadataInterface;
+use Laminas\Db\Sql\Combine;
+use Laminas\Db\Sql\Ddl\Column\Integer;
+use Laminas\Db\Sql\Ddl\Column\Varchar;
+use Laminas\Db\Sql\Ddl\Constraint\PrimaryKey;
+use Laminas\Db\Sql\Ddl\CreateTable;
+use Laminas\Db\Sql\Ddl\DropTable;
+use Laminas\Db\Sql\Ddl\Index\Index;
+use Laminas\Db\Sql\Expression;
+use Laminas\Db\Sql\Predicate\Predicate;
+use Laminas\Db\Sql\Select;
+use Laminas\Db\Sql\Sql;
+use Laminas\Db\Sql\Where;
 
 class CategoryInfo
 {

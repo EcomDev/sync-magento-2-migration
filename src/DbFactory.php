@@ -10,7 +10,7 @@ namespace EcomDev\MagentoMigration;
 
 
 use PDO;
-use Zend\Db\Adapter\Adapter;
+use Laminas\Db\Adapter\Adapter;
 
 class DbFactory
 {

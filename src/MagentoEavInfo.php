@@ -9,14 +9,14 @@ declare(strict_types=1);
 namespace EcomDev\MagentoMigration;
 
 
-use Zend\Db\Adapter\Adapter;
-use Zend\Db\Metadata\MetadataInterface;
-use Zend\Db\Metadata\Source\Factory;
-use Zend\Db\Sql\Expression;
-use Zend\Db\Sql\Predicate\Predicate;
-use Zend\Db\Sql\Sql;
-use Zend\Db\Sql\TableIdentifier;
-use Zend\Db\Sql\Where;
+use Laminas\Db\Adapter\Adapter;
+use Laminas\Db\Metadata\MetadataInterface;
+use Laminas\Db\Metadata\Source\Factory;
+use Laminas\Db\Sql\Expression;
+use Laminas\Db\Sql\Predicate\Predicate;
+use Laminas\Db\Sql\Sql;
+use Laminas\Db\Sql\TableIdentifier;
+use Laminas\Db\Sql\Where;
 
 class MagentoEavInfo
 {

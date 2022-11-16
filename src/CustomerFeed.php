@@ -8,11 +8,11 @@ declare(strict_types=1);
 
 namespace EcomDev\MagentoMigration;
 
-use Zend\Db\Adapter\Adapter;
-use Zend\Db\Sql\Combine;
-use Zend\Db\Sql\Select;
-use Zend\Db\Sql\Sql;
-use Zend\Db\Sql\Where;
+use Laminas\Db\Adapter\Adapter;
+use Laminas\Db\Sql\Combine;
+use Laminas\Db\Sql\Select;
+use Laminas\Db\Sql\Sql;
+use Laminas\Db\Sql\Where;
 
 class CustomerFeed implements Feed
 {
