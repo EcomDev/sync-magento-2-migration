@@ -124,4 +124,13 @@ class ProductExport
             $writer->write($row);
         }
     }
+
+    public function exportGroupedProductRelations(string $fileName)
+    {
+        $writer = $this->csvFactory->createWriter($fileName, ['product_sku', 'linked_product_sku']);
+
+        foreach ($this->productInfo->fetchGroupedProductRelations($this->conditionGenerator) as $row) {
+            $writer->write($row);
+        }
+    }
 }

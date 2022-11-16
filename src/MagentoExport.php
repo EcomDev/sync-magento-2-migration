@@ -65,6 +65,7 @@ class MagentoExport
         $this->productExport->exportProductUrls('product_urls.csv');
         $this->productExport->exportConfigurableAttributes('product_configurable_attribute.csv');
         $this->productExport->exportConfigurableRelations('product_configurable_relation.csv');
+        $this->productExport->exportGroupedProductRelations('product_grouped_relation.csv');
     }
 
     public function exportProductsDataOnly()
