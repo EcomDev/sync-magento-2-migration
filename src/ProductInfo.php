@@ -9,14 +9,14 @@ declare(strict_types=1);
 namespace EcomDev\MagentoMigration;
 
 
-use Zend\Db\Sql\Combine;
-use Zend\Db\Sql\Expression;
-use Zend\Db\Sql\Having;
-use Zend\Db\Sql\Literal;
-use Zend\Db\Sql\Predicate\Predicate;
-use Zend\Db\Sql\Select;
-use Zend\Db\Sql\Sql;
-use Zend\Db\Sql\Where;
+use Laminas\Db\Sql\Combine;
+use Laminas\Db\Sql\Expression;
+use Laminas\Db\Sql\Having;
+use Laminas\Db\Sql\Literal;
+use Laminas\Db\Sql\Predicate\Predicate;
+use Laminas\Db\Sql\Select;
+use Laminas\Db\Sql\Sql;
+use Laminas\Db\Sql\Where;
 
 class ProductInfo implements Feed
 {

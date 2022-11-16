@@ -10,7 +10,7 @@ namespace EcomDev\MagentoMigration;
 
 
 use PHPUnit\Framework\TestCase;
-use Zend\Db\Adapter\Adapter;
+use Laminas\Db\Adapter\Adapter;
 
 class DbFactoryTest extends TestCase
 {

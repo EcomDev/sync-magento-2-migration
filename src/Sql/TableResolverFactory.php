@@ -9,8 +9,8 @@ declare(strict_types=1);
 namespace EcomDev\MagentoMigration\Sql;
 
 
-use Zend\Db\Adapter\Adapter;
-use Zend\Db\Sql\Sql;
+use Laminas\Db\Adapter\Adapter;
+use Laminas\Db\Sql\Sql;
 
 class TableResolverFactory
 {

@@ -9,8 +9,8 @@ declare(strict_types=1);
 namespace EcomDev\MagentoMigration;
 
 
-use Zend\Db\Adapter\Adapter;
-use Zend\Db\Sql\Ddl\CreateTable;
+use Laminas\Db\Adapter\Adapter;
+use Laminas\Db\Sql\Ddl\CreateTable;
 
 class TestDb
 {

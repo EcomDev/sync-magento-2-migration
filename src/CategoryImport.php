@@ -9,18 +9,18 @@ declare(strict_types=1);
 namespace EcomDev\MagentoMigration;
 
 use EcomDev\MagentoMigration\Sql\InsertOnDuplicate;
-use Zend\Db\Adapter\Adapter;
-use Zend\Db\Metadata\MetadataInterface;
-use Zend\Db\Metadata\Source\Factory;
-use Zend\Db\Sql\Ddl\Column\Integer;
-use Zend\Db\Sql\Ddl\Column\Varchar;
-use Zend\Db\Sql\Ddl\Constraint\PrimaryKey;
-use Zend\Db\Sql\Ddl\CreateTable;
-use Zend\Db\Sql\Ddl\Index\Index;
-use Zend\Db\Sql\Predicate\Predicate;
-use Zend\Db\Sql\Select;
-use Zend\Db\Sql\Sql;
-use Zend\Db\Sql\Where;
+use Laminas\Db\Adapter\Adapter;
+use Laminas\Db\Metadata\MetadataInterface;
+use Laminas\Db\Metadata\Source\Factory;
+use Laminas\Db\Sql\Ddl\Column\Integer;
+use Laminas\Db\Sql\Ddl\Column\Varchar;
+use Laminas\Db\Sql\Ddl\Constraint\PrimaryKey;
+use Laminas\Db\Sql\Ddl\CreateTable;
+use Laminas\Db\Sql\Ddl\Index\Index;
+use Laminas\Db\Sql\Predicate\Predicate;
+use Laminas\Db\Sql\Select;
+use Laminas\Db\Sql\Sql;
+use Laminas\Db\Sql\Where;
 
 class CategoryImport
 {

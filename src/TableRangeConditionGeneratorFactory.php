@@ -8,10 +8,10 @@ declare(strict_types=1);
 
 namespace EcomDev\MagentoMigration;
 
-use Zend\Db\Adapter\Adapter;
-use Zend\Db\Sql\Literal;
-use Zend\Db\Sql\Sql;
-use Zend\Db\Sql\Where;
+use Laminas\Db\Adapter\Adapter;
+use Laminas\Db\Sql\Literal;
+use Laminas\Db\Sql\Sql;
+use Laminas\Db\Sql\Where;
 
 class TableRangeConditionGeneratorFactory
 {

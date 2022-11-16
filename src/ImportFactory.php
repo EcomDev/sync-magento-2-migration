@@ -9,7 +9,7 @@ declare(strict_types=1);
 namespace EcomDev\MagentoMigration;
 
 
-use Zend\Db\Adapter\Adapter;
+use Laminas\Db\Adapter\Adapter;
 
 class ImportFactory
 {

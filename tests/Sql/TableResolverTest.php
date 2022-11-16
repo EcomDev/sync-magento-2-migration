@@ -11,12 +11,12 @@ namespace EcomDev\MagentoMigration\Sql;
 
 use EcomDev\MagentoMigration\TestDb;
 use PHPUnit\Framework\TestCase;
-use Zend\Db\Sql\Ddl\Column\Integer;
-use Zend\Db\Sql\Ddl\Column\Varchar;
-use Zend\Db\Sql\Ddl\Constraint\PrimaryKey;
-use Zend\Db\Sql\Ddl\CreateTable;
-use Zend\Db\Sql\Ddl\Index\Index;
-use Zend\Db\Sql\Sql;
+use Laminas\Db\Sql\Ddl\Column\Integer;
+use Laminas\Db\Sql\Ddl\Column\Varchar;
+use Laminas\Db\Sql\Ddl\Constraint\PrimaryKey;
+use Laminas\Db\Sql\Ddl\CreateTable;
+use Laminas\Db\Sql\Ddl\Index\Index;
+use Laminas\Db\Sql\Sql;
 
 class TableResolverTest extends TestCase
 {
@@ -338,10 +338,10 @@ class TableResolverTest extends TestCase
     }
 
     /**
-     * @param \Zend\Db\Adapter\Adapter $connection
+     * @param \Laminas\Db\Adapter\Adapter $connection
      *
      */
-    protected function loadTableFixtures(\Zend\Db\Adapter\Adapter $connection): void
+    protected function loadTableFixtures(\Laminas\Db\Adapter\Adapter $connection): void
     {
         $connection->createStatement(sprintf('DROP TEMPORARY TABLE IF EXISTS %s', 'some_table'));
         $connection->createStatement(sprintf('DROP TEMPORARY TABLE IF EXISTS %s', 'another_table'));

@@ -13,23 +13,23 @@ use League\Csv\Writer;
 class CsvFactory
 {
     /** @var string */
-    private $currentDirectory;
+    private string $currentDirectory;
 
     /** @var array[] */
-    private $skipFilters = [];
+    private array $skipFilters = [];
 
     /** @var array[] */
-    private $mappings = [];
+    private array $mappings = [];
 
     /**
      * @var CsvReader
      */
-    private $csvReader;
+    private CsvReader $csvReader;
 
     /**
      * @var bool
      */
-    private $encodedData;
+    private bool $encodedData;
 
     /**
      * @param string $currentDirectory

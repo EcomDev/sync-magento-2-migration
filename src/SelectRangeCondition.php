@@ -9,7 +9,7 @@ declare(strict_types=1);
 namespace EcomDev\MagentoMigration;
 
 
-use Zend\Db\Sql\Where;
+use Laminas\Db\Sql\Where;
 
 class SelectRangeCondition implements SelectCondition
 {

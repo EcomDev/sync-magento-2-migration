@@ -8,8 +8,8 @@ declare(strict_types=1);
 
 namespace EcomDev\MagentoMigration\Sql;
 
-use Zend\Db\Sql\Sql;
-use Zend\Db\Sql\Where;
+use Laminas\Db\Sql\Sql;
+use Laminas\Db\Sql\Where;
 
 class CombinedTableResolver implements IdResolver
 {

@@ -11,8 +11,8 @@ namespace EcomDev\MagentoMigration;
 
 use EcomDev\MagentoMigration\Sql\InsertOnDuplicate;
 use EcomDev\MagentoMigration\Sql\TableResolverFactory;
-use Zend\Db\Adapter\Adapter;
-use Zend\Db\Sql\Sql;
+use Laminas\Db\Adapter\Adapter;
+use Laminas\Db\Sql\Sql;
 
 
 class CustomerImport

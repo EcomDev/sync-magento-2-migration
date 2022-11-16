@@ -10,12 +10,12 @@ namespace EcomDev\MagentoMigration;
 
 use EcomDev\MagentoMigration\Sql\InsertOnDuplicate;
 use EcomDev\MagentoMigration\Sql\TableResolverFactory;
-use Zend\Db\Adapter\Adapter;
-use Zend\Db\Sql\Ddl\Column\Integer;
-use Zend\Db\Sql\Ddl\Constraint\PrimaryKey;
-use Zend\Db\Sql\Ddl\CreateTable;
-use Zend\Db\Sql\Sql;
-use Zend\Db\Sql\Where;
+use Laminas\Db\Adapter\Adapter;
+use Laminas\Db\Sql\Ddl\Column\Integer;
+use Laminas\Db\Sql\Ddl\Constraint\PrimaryKey;
+use Laminas\Db\Sql\Ddl\CreateTable;
+use Laminas\Db\Sql\Sql;
+use Laminas\Db\Sql\Where;
 
 class ProductImport
 {
