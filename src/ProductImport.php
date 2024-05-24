@@ -632,4 +632,38 @@ class ProductImport
     {
         return $type !== 'varchar' && $type !== 'text' && $value === '' ? null : $value;
     }
+
+    public function importTierPrices(iterable $prices)
+    {
+        $websiteMap = $this->info->fetchWebsiteMap($this->info->fetchStoreMap());
+
+        $this->transactional(function () use ($prices, $websiteMap) {
+            $productResolver = $this->resolverFactory->createSingleValueResolver(
+                'catalog_product_entity',
+                'sku',
+                'entity_id'
+            );
+
+            $priceInsert = InsertOnDuplicate::create(
+                'catalog_product_entity_tier_price',
+                ['entity_id', 'customer_group_id', 'website_id', 'all_groups', 'qty', 'value', 'percentage_value']
+            )
+                ->withResolver($productResolver)
+                ->onDuplicate(['all_groups', 'qty', 'value', 'percentage_value']);
+
+            foreach ($prices as $row) {
+                $priceInsert = $priceInsert->withRow(
+                    $productResolver->unresolved($row['sku']),
+                    (int)($row['customer_group_id'] ?? 0),
+                    (int)($websiteMap[$row['website']] ?? 0),
+                    (int)($row['all_groups'] ?? 0),
+                    (int)$row['qty'] ?? 0,
+                    (float)($row['value'] ?? 0.0),
+                    isset($row['percentage_value']) ? (float)$row['percentage_value'] : null,
+                )->flushIfLimitReached($this->sql);
+            }
+
+            $priceInsert->executeIfNotEmpty($this->sql);
+        });
+    }
 }

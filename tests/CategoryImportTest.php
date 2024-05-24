@@ -28,8 +28,9 @@ class CategoryImportTest extends TestCase
         $this->testDb = new TestDb();
 
         $connection = $this->testDb->createMagentoTwoConnection();
+        $readConnection = $this->testDb->createMagentoTwoConnection();
 
-        $this->import = CategoryImport::createFromAdapter($connection);
+        $this->import = CategoryImport::createFromAdapter($connection, $readConnection);
         $this->import->createCategoryMapTableIfNotExists();
         $this->categoryInfo = CategoryInfoFactory::createFromAdapter($connection)
             ->withStoreFilter(
@@ -79,7 +80,7 @@ class CategoryImportTest extends TestCase
             $this->categoryInfo->fetchCategoryTree()
         );
     }
-    
+
     /** @test */
     public function importsCategoryTrees()
     {

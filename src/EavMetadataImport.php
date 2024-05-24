@@ -85,6 +85,7 @@ class EavMetadataImport
                         'is_visible_in_advanced_search',
                         'is_used_for_promo_rules',
                         'position',
+                        'additional_data'
                     ]
                 )
                     ->onDuplicate(
@@ -104,6 +105,7 @@ class EavMetadataImport
                             'is_visible_in_advanced_search',
                             'is_used_for_promo_rules',
                             'position',
+                            'additional_data'
                         ]
                     )
                 ;
@@ -137,7 +139,8 @@ class EavMetadataImport
                         $info['html'],
                         $info['advanced_search'],
                         $info['promotion'],
-                        $info['position']
+                        $info['position'],
+                        $info['additional_data']
                     );
                 }
 
@@ -507,6 +510,15 @@ class EavMetadataImport
         );
     }
 
+    public function importAttributeOptionSwatches(iterable $options)
+    {
+        $this->transactional(
+            function () use ($options) {
+                $this->importAttributeOptionSwatchesInDatabase($options);
+            }
+        );
+    }
+
     /**
      * @param iterable $options
      *
@@ -550,6 +562,40 @@ class EavMetadataImport
             }
 
             $optionStatement->withRow($optionId, $attributeIds[$option['attribute']], $option['position']);
+        }
+
+        $optionStatement->executeIfNotEmpty($this->sql);
+    }
+
+    private function importAttributeOptionSwatchesInDatabase(iterable $options): void
+    {
+        $attributeIds = $this->fetchAttributeIds($this->eavInfo->fetchProductAttributes());
+
+        $existingOptions = $this->eavInfo->fetchAttributeOptions('catalog_product', array_keys($attributeIds));
+
+        $optionStatement = InsertOnDuplicate::create(
+            'eav_attribute_option_swatch',
+            [
+                'option_id',
+                'store_id',
+                'type',
+                'value',
+            ]
+        )
+            ->onDuplicate(['type', 'value'])
+        ;
+
+        foreach ($options as $option) {
+            if (!isset($attributeIds[$option['attribute']])) {
+                continue;
+            }
+
+            $optionId = array_search($option['option'], $existingOptions[$option['attribute']] ?? []);
+            if (!$optionId) {
+                continue;
+            }
+
+            $optionStatement->withRow($optionId, 0, (int)$option['swatch_type'], $option['value']);
         }
 
         $optionStatement->executeIfNotEmpty($this->sql);

@@ -13,12 +13,14 @@ use Laminas\Db\Adapter\Adapter;
 
 class ImportFactory
 {
-    public function create(string $directory, Adapter $adapter, bool $decodeData = false)
+    public function create(string $directory, ConnectionPool $connectionPool, bool $decodeData = false)
     {
+        $adapter = $connectionPool->createConnection();
+        $readAdapter = $connectionPool->createConnection();
         return new Import(
             new CsvFactory($directory, $decodeData),
             EavMetadataImport::createFromAdapter($adapter),
-            CategoryImport::createFromAdapter($adapter),
+            CategoryImport::createFromAdapter($adapter, $readAdapter),
             ProductImport::createFromAdapter($adapter),
             CustomerImport::createFromAdapter($adapter)
         );

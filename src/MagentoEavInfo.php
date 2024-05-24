@@ -26,7 +26,7 @@ class MagentoEavInfo
     private $sql;
 
     /** @var array */
-    private $magentoOneTableExists;
+    private $existingTables;
 
     private $standardAttributes = [
         'image', 'small_image', 'thumbnail', 'custom_design', 'custom_design_from',
@@ -321,16 +321,20 @@ class MagentoEavInfo
         return $result;
     }
 
-    public function isMagentoTwo(): bool
+    public function hasTable(string $tableName): bool
     {
-        if (!isset($this->magentoOneTableExists)) {
-            $this->magentoOneTableExists = array_intersect(
-                ['core_resource', 'core_url_rewrite'],
-                $this->metadata->getTableNames()
-            );
+        if (!isset($this->existingTables)) {
+            $tables = $this->metadata->getTableNames();
+            $this->existingTables = array_combine($tables, $tables);
         }
 
-        return empty($this->magentoOneTableExists);
+        return isset($this->existingTables[$tableName]);
+    }
+
+    public function isMagentoTwo(): bool
+    {
+        return !$this->hasTable('core_resource')
+            && !$this->hasTable('core_url_rewrite');
     }
 
     public function fetchAttributeIds(string $entityType, array $attributeCodes): array

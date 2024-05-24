@@ -9,7 +9,6 @@ declare(strict_types=1);
 namespace EcomDev\MagentoMigration\Sql;
 
 
-use Braintree\Exception;
 use Laminas\Db\Adapter\AdapterInterface;
 use Laminas\Db\Adapter\Driver\DriverInterface;
 use Laminas\Db\Adapter\Driver\StatementInterface;
@@ -136,7 +135,6 @@ class InsertOnDuplicate extends InsertMultiple
             $this->executeResolvedValues($this->resolvedCount, $sql->getAdapter());
         }
 
-
         return $this;
     }
 
@@ -172,59 +170,6 @@ class InsertOnDuplicate extends InsertMultiple
         $insert->formatted[$field] = $format;
         return $insert;
     }
-
-    private function generateInsertStatement(PlatformInterface $platform, DriverInterface $driver = null, ParameterContainer $parameterContainer = null)
-    {
-        if ($this->select) {
-            return;
-        }
-        if (!$this->columns) {
-            throw new \Laminas\Db\Exception\InvalidArgumentException('values or select should be present');
-        }
-
-        $columns = array();
-        $values  = array();
-
-        if (empty($this->valueRows)) {
-            return '';    //TODO Test that
-        }
-
-        $prepareColumns = true;
-        foreach ($this->valueRows as $rowIndex => $row) {
-            if (!is_array($row)) {
-                throw new \Laminas\Db\Exception\InvalidArgumentException('values must be arrays for multi-insertion');
-            }
-            $subValues = array();
-            ksort($row); // Make sure columns always appear in the same order
-
-            foreach($row as $col => $subValue) {
-                if ($prepareColumns) {
-                    $columns[] = $platform->quoteIdentifier($col);
-                }
-
-                if (is_scalar($subValue) && $parameterContainer) {
-                    $subValues[] = $driver->formatParameterName($col . $rowIndex);
-                    $parameterContainer[$col . $rowIndex] = $subValue;
-                } else {
-                    $subValues[] = $this->resolveColumnValue(
-                        $subValue,
-                        $platform,
-                        $driver,
-                        $parameterContainer
-                    );
-                }
-            }
-            $values[] = implode(', ', $subValues);
-            $prepareColumns = false;
-        }
-        return sprintf(
-            $this->specifications[static::SPECIFICATION_INSERT],
-            $this->resolveTable($this->table, $platform, $driver, $parameterContainer),
-            implode(', ', $columns),
-            implode('), (', $values)
-        );
-    }
-
 
     public function withAssocRow(array $row)
     {

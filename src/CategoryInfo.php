@@ -176,7 +176,7 @@ class CategoryInfo
         ));
     }
 
-    private function exportId(string $id) {
+    private function exportId(string|int $id) {
         return 'category_' . $id;
     }
 
@@ -230,6 +230,7 @@ class CategoryInfo
                 }
             )
             ->group('child_category.category_id')
+            ->group('name.value')
             ->order('child_category.path ASC')
         ;
 

@@ -50,19 +50,18 @@ class Import
     public function importAttributesOnly()
     {
         $this->eavMetadataImport->importAttributes($this->csvFactory->createReader('attribute.csv'));
-
         $this->eavMetadataImport->importAttributeSets($this->csvFactory->createReader('attribute_set.csv'));
-
         $this->eavMetadataImport->importAttributeOptions($this->csvFactory->createReader('attribute_option.csv'));
+        $this->eavMetadataImport->importAttributeOptionSwatches($this->csvFactory->createReader('attribute_option_swatch.csv'));
     }
 
     public function importAttributes()
     {
         $this->eavMetadataImport->importAttributes($this->csvFactory->createReader('attribute.csv'));
-
         $this->eavMetadataImport->importAttributeSets($this->csvFactory->createReader('attribute_set.csv'));
-
         $this->eavMetadataImport->importAttributeOptions($this->csvFactory->createReader('attribute_option.csv'));
+        $this->eavMetadataImport->importAttributeOptionSwatches($this->csvFactory->createReader('attribute_option_swatch.csv'));
+
     }
 
     public function importCategories()
@@ -82,6 +81,7 @@ class Import
         $this->productImport->importProducts($this->csvFactory->createReader('product.csv'));
 
         $this->productImport->importProductData($this->csvFactory->createReader('product_data.csv'));
+        $this->productImport->importTierPrices($this->csvFactory->createReader('product_tier_prices.csv'));
         $this->productImport->importProductWebsite($this->csvFactory->createReader('product_website.csv'));
         $this->productImport->importProductCategory($this->csvFactory->createReader('product_category.csv'));
         $this->productImport->importStock($this->csvFactory->createReader('stock.csv'));

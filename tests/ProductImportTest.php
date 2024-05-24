@@ -602,7 +602,11 @@ class ProductImportTest extends TestCase
     /** @test */
     public function importsProductCategoryRelation()
     {
-        $categoryImport = CategoryImport::createFromAdapter($this->testDb->createMagentoTwoConnection());
+        $categoryImport = CategoryImport::createFromAdapter(
+            $this->testDb->createMagentoTwoConnection(),
+            $this->testDb->createMagentoTwoConnection()
+        );
+
         $categoryImport->importCategories([
             ['name' => 'Cat 1', 'id' => 'cat1', 'parent_path' => ''],
             ['name' => 'Cat 2', 'id' => 'cat2', 'parent_path' => ''],
@@ -643,7 +647,7 @@ class ProductImportTest extends TestCase
             )
         );
     }
-    
+
     /** @test */
     public function importsStockItems()
     {

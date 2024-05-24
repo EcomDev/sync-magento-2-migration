@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace EcomDev\MagentoMigration;
 
+use Laminas\Db\Adapter\Adapter;
 use League\CLImate\CLImate;
 use League\CLImate\Exceptions\InvalidArgumentException;
 
@@ -39,7 +40,7 @@ class ImportApplication
         try {
             $cli->arguments->parse();
 
-            $adapter = $this->dbFactory->createConnection(
+            $adapter = $this->dbFactory->crateConnectionPool(
                 $cli->arguments->get('mysql_host'),
                 $cli->arguments->get('mysql_user'),
                 $cli->arguments->get('mysql_password'),
@@ -56,7 +57,9 @@ class ImportApplication
 
             $import = $this->importFactory->create($path, $adapter, (bool) $cli->arguments->get('decode_data'));
 
-            if($cli->arguments->get('attributes_only')) {
+            if ($cli->arguments->get('category_only')) {
+                $import->importCategories();
+            } elseif($cli->arguments->get('attributes_only')) {
                 $import->importAttributesOnly();
             } elseif($cli->arguments->get('products_data_only')) {
                 $import->importProductsDataOnly();
@@ -71,6 +74,16 @@ class ImportApplication
             $cli->usage();
         }
 
+    }
+
+    private function createConnection(CLImate $cli): Adapter
+    {
+        return $this->dbFactory->createConnection(
+            $cli->arguments->get('mysql_host'),
+            $cli->arguments->get('mysql_user'),
+            $cli->arguments->get('mysql_password'),
+            $cli->arguments->get('mysql_db')
+        );
     }
 
     private function initializeArguments(CLImate $cli)
@@ -116,6 +129,12 @@ class ImportApplication
         $cli->arguments->add('products_data_only', [
             'prefix' => 'po',
             'longPrefix' => 'products-data-only',
+            'defaultValue' => 0
+        ]);
+
+        $cli->arguments->add('category_only', [
+            'prefix' => 'co',
+            'longPrefix' => 'category-only',
             'defaultValue' => 0
         ]);
 

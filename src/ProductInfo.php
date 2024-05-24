@@ -139,7 +139,7 @@ class ProductInfo implements Feed
             foreach ($this->sql->prepareStatementForSqlObject($select)->execute() as $row) {
                 yield [
                     'sku' => $row['sku'],
-                    'store' => $websiteMap[$row['website_id']]
+                    'store' => $this->mapStore($websiteMap[$row['website_id']]) ?: $websiteMap[$row['website_id']]
                 ];
             }
         }
@@ -396,25 +396,12 @@ class ProductInfo implements Feed
             ;
         }
 
-
-        return $select = $this->sql->select(['index' => 'catalog_category_product_index'])
+        $select = $this->sql->select(['index' => 'catalog_category_product_index'])
             ->columns(['store_id'])
             ->join(
                 ['product' => 'catalog_product_entity'],
                 'product.entity_id = index.product_id',
                 ['sku']
-            )
-            ->join(
-                ['product_rewrite' => 'enterprise_catalog_product_rewrite'],
-                (new Predicate())
-                    ->literal('product_rewrite.product_id = index.product_id')
-                    ->literal('product_rewrite.store_id IN(index.store_id, 0)'),
-                []
-            )
-            ->join(
-                ['rewrite' => 'enterprise_url_rewrite'],
-                'rewrite.url_rewrite_id = product_rewrite.url_rewrite_id',
-                ['url' => 'request_path']
             )
             ->order('product_rewrite.product_id ASC')
             ->order('product_rewrite.store_id ASC')
@@ -423,8 +410,31 @@ class ProductInfo implements Feed
                 $condition->apply('index.product_id', $where);
                 $where->in('index.store_id', array_keys($storeIds));
                 $where->in('index.category_id', $rootCategoryIds);
-            })
-        ;
+            });
+
+        if ($this->eavInfo->hasTable('enterprise_catalog_product_rewrite')) {
+            return $select->join(
+                ['product_rewrite' => 'enterprise_catalog_product_rewrite'],
+                (new Predicate())
+                    ->literal('product_rewrite.product_id = index.product_id')
+                    ->literal('product_rewrite.store_id IN(index.store_id, 0)'),
+                []
+            )->join(
+                ['rewrite' => 'enterprise_url_rewrite'],
+                'rewrite.url_rewrite_id = product_rewrite.url_rewrite_id',
+                ['url' => 'request_path']
+            );
+        }
+
+        return $select->join(
+            ['product_rewrite' => 'core_url_rewrite'],
+            (new Predicate())
+                ->literal('product_rewrite.product_id = index.product_id')
+                ->literal('product_rewrite.store_id IN(index.store_id, 0)')
+                ->equalTo('product_rewrite.is_system', 1)
+                ->isNull('product_rewrite.category_id'),
+            ['url' => 'request_path']
+        );
     }
 
     /**
@@ -444,12 +454,6 @@ class ProductInfo implements Feed
         }
 
         $attributes += $this->eavInfo->fetchProductAttributes();
-        $attributesToIgnore = ["associated_cache","associated_cache_10","associated_cache_11","associated_cache_12","associated_cache_13","associated_cache_14","associated_cache_15","associated_cache_16","associated_cache_2","associated_cache_3","associated_cache_4","associated_cache_5","associated_cache_6","associated_cache_7","associated_cache_8","associated_cache_9","sizes_cache","size_cache_10","size_cache_11","size_cache_12","size_cache_13","size_cache_14","size_cache_15","size_cache_16","size_cache_2","size_cache_3","size_cache_4","size_cache_5","size_cache_6","size_cache_7","size_cache_8","size_cache_9"];
-
-        $attributes = array_diff_key(
-            $attributes,
-            array_combine($attributesToIgnore, $attributesToIgnore)
-        );
 
         $attributeCodes = array_keys($attributes);
         foreach ($this->ignoredAttributes as $attribute) {
