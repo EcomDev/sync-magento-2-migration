@@ -3,8 +3,9 @@
     "description": "Migration Application for M1 -> M2",
     "type": "project",
     "require": {
+        "php": "8.2",
         "laminas/laminas-db": "^2.15",
-        "nanawel/zend-db-sql-insertmultiple": "dev-master",
+        "nanawel/zend-db-sql-insertmultiple": "2.1",
         "league/climate": "^3.5",
         "league/csv": "^9.2",
         "laminas/laminas-dependency-plugin": "^2.1"

@@ -140,7 +140,7 @@ class EavMetadataImport
                         $info['advanced_search'],
                         $info['promotion'],
                         $info['position'],
-                        $info['additional_data']
+                        $info['additional_data'] ?? ''
                     );
                 }
 

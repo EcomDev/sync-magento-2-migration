@@ -164,13 +164,13 @@ class ProductImport
                 }
 
                 $attributeOptions = $options[$row['attribute']] ?? [];
-
+                $value = $attributeOptions ? $this->resolveOption($row['value'], $attributeOptions) : $row['value'];
                 $typeInserts[$type] = $typeInserts[$type]
                     ->withRow(
                         $productResolver->unresolved($row['sku']),
                         $attributeIds[$row['attribute']],
                         $storeMap[$row['store']] ?? 0,
-                        $attributeOptions ? $this->resolveOption($row['value'], $attributeOptions) : $this->resolveEmptyValue($row['value'], $type)
+                        $this->resolveEmptyValue($value, $type)
                     )
                     ->flushIfLimitReached($this->sql);
             }
@@ -628,7 +628,7 @@ class ProductImport
         });
     }
 
-    private function resolveEmptyValue(string $value, string $type)
+    private function resolveEmptyValue(mixed $value, string $type)
     {
         return $type !== 'varchar' && $type !== 'text' && $value === '' ? null : $value;
     }
